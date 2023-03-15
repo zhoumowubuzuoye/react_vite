@@ -8,7 +8,7 @@
 import React from "react";
 
 function Rank(props) {
-  return <div>Rank1</div>;
+  return <div>Rank12</div>;
 }
 
 export default React.memo(Rank);
