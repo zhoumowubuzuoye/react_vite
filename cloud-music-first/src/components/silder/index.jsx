@@ -1,7 +1,7 @@
 /*
  * @Author: xiewenhao
  * @Date: 2023-03-15 14:46:04
- * @LastEditTime: 2023-03-15 16:48:23
+ * @LastEditTime: 2023-03-15 17:29:18
  * @Description:
  */
 import React, { useEffect, useState } from "react";
@@ -29,9 +29,9 @@ function Slider(props) {
             }}
             pagination={{ el: ".swiper-pagination", clickable: true ,}}
           >
-            {bannerList.map((item) => {
+            {bannerList.map((item,index) => {
               return (
-                <SwiperSlide key={item.imageUrl}>
+                <SwiperSlide key={index}>
                   <img
                     src={item.imageUrl}
                     width="100%"
