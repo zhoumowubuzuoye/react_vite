@@ -1,17 +1,18 @@
 /*
  * @Author: xiewenhao
  * @Date: 2023-03-15 14:46:04
- * @LastEditTime: 2023-03-15 17:29:18
+ * @LastEditTime: 2023-03-20 14:41:27
  * @Description:
  */
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import { SliderContainer } from "./style";
 function Slider(props) {
-  const [sliderSwiper, setSliderSwiper] = useState(null);
+  // const [sliderSwiper, setSliderSwiper] = useState(null);
+  console.log(props);
   const { bannerList } = props;
   return (
     <SliderContainer>
@@ -27,9 +28,9 @@ function Slider(props) {
               delay: 3000,
               disableOnInteraction: false,
             }}
-            pagination={{ el: ".swiper-pagination", clickable: true ,}}
+            pagination={{ el: ".swiper-pagination", clickable: true }}
           >
-            {bannerList.map((item,index) => {
+            {bannerList.map((item, index) => {
               return (
                 <SwiperSlide key={index}>
                   <img

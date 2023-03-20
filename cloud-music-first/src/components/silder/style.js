@@ -1,3 +1,9 @@
+/*
+ * @Author: xiewenhao
+ * @Date: 2023-03-15 17:00:37
+ * @LastEditTime: 2023-03-20 11:21:46
+ * @Description: 
+ */
 import styled from "styled-components";
 import style from "../../assets/global-style.js";
 
@@ -9,8 +15,8 @@ export const SliderContainer = styled.div`
   margin: auto;
   .before {
     position: absolute;
-    top: 0;
-    height: 60%;
+    top: -300px;
+    height: 400px;
     width: 100%;
     background: ${style["theme-color"]};
   }
