@@ -1,7 +1,7 @@
 /*
  * @Author: xiewenhao
  * @Date: 2023-03-20 15:43:18
- * @LastEditTime: 2023-03-20 17:30:07
+ * @LastEditTime: 2023-03-21 11:17:14
  * @Description: '上部轮动'
  */
 import React, { useRef, useEffect } from "react";
@@ -36,6 +36,7 @@ function Horzien(props) {
                 onClick={() => {
                   handleClick(item.key);
                 }}
+                className={item.key === oldVal ? "selected" : ""}
               >
                 {item.name}
               </ListItem>
