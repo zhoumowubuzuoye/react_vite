@@ -1,7 +1,7 @@
 /*
  * @Author: xiewenhao
  * @Date: 2023-03-15 17:00:37
- * @LastEditTime: 2023-03-21 17:03:22
+ * @LastEditTime: 2023-03-27 16:55:54
  * @Description:
  */
 import React, { useEffect, useState } from "react";
@@ -10,6 +10,10 @@ import {
   getHotSingerList,
   refreshMoreHotSingerList,
   changePageCount,
+  getSingerList,
+  changePullDownLoading,
+  changePullUpLoading,
+  changeEnterLoading,
 } from "./store/actionCreators";
 import { connect } from "react-redux";
 import HorizenItem from "../../baseUI/horizen-item";
@@ -23,20 +27,27 @@ function Singers(props) {
     enterLoading,
     pageCount,
   } = props;
-  console.log(pageCount);
-  const { getHotSingerDispatch, pullUpRefreshDispatch } = props;
+  const {
+    getHotSingerDispatch,
+    pullUpRefreshDispatch,
+    updateDispatch,
+    pullDownRefreshDispatch,
+  } = props;
   let [category, setCategory] = useState("");
   let [alpha, setAlpha] = useState("");
   const handleUpdateCategory = (val) => {
     setCategory(val);
+    updateDispatch(val, alpha);
   };
   const handleUpdateAlpha = (val) => {
     setAlpha(val);
+    updateDispatch(category, val);
   };
   useEffect(() => {
     getHotSingerDispatch();
   }, []);
   const list = singerList ? singerList.toJS() : [];
+  console.log(pullUpLoading,50);
   return (
     <div>
       <NavContainer>
@@ -44,19 +55,23 @@ function Singers(props) {
           title={"分类 (默认热门):"}
           list={categoryTypes}
           oldVal={category}
-          handleClick={handleUpdateCategory}
+          handleClick={(category) => handleUpdateCategory(category)}
         ></HorizenItem>
         <HorizenItem
           list={alphaTypes}
           title={"首字母:"}
           oldVal={alpha}
-          handleClick={handleUpdateAlpha}
+          handleClick={(alpha) => handleUpdateAlpha(alpha)}
         ></HorizenItem>
       </NavContainer>
       <SingList
         list={list}
         pullUpRefreshDispatch={pullUpRefreshDispatch}
+        pullDownRefreshDispatch={pullDownRefreshDispatch}
         pageCount={pageCount}
+        category={category}
+        alpha={alpha}
+        pullUpLoading={pullUpLoading}
       ></SingList>
     </div>
   );
@@ -72,11 +87,26 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     getHotSingerDispatch() {
+      dispatch(changePullUpLoading(true));
       dispatch(getHotSingerList());
     },
     pullUpRefreshDispatch(count) {
+      dispatch(changePullUpLoading(true));
       dispatch(changePageCount(count + 1));
       dispatch(refreshMoreHotSingerList());
+    },
+    updateDispatch(category, alpha) {
+      dispatch(changePullUpLoading(true));
+      dispatch(changePageCount(0));
+      dispatch(getSingerList(category, alpha));
+    },
+    pullDownRefreshDispatch(category, alpha) {
+      dispatch(changePageCount(0));
+      if (category === "" && alpha === "") {
+        dispatch(getHotSingerList());
+      } else {
+        dispatch(getSingerList(category, alpha));
+      }
     },
   };
 };

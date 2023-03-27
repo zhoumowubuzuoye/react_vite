@@ -1,7 +1,7 @@
 /*
  * @Author: xiewenhao
  * @Date: 2023-03-21 14:37:20
- * @LastEditTime: 2023-03-21 17:15:26
+ * @LastEditTime: 2023-03-27 17:23:38
  * @Description:
  */
 
@@ -15,8 +15,6 @@ import {
   CHANGE_SINGER_LIST,
   CHANGE_PULLUP_LOADING,
   CHANGE_PAGE_COUNT,
-  CHANGE_ALPHA,
-  CHANGE_CATOGORY,
 } from "./constants";
 
 import { fromJS } from "immutable";
@@ -31,9 +29,30 @@ export const changePageCount = (data) => ({
   data,
 });
 
+export const changePullDownLoading = (data) => {
+  return {
+    type: CHANGE_PULLDOWN_LOADING,
+    data,
+  };
+};
+
+export const changePullUpLoading = (data) => {
+  console.log(data);
+  return({
+    type: CHANGE_PULLUP_LOADING,
+    data,
+  });
+}
+
+export const changeEnterLoading = (data) => ({
+  type: CHANGE_ENTER_LOADING,
+  data,
+});
+
 export const getHotSingerList = () => {
   return (dispatch) => {
     getHotSingerListRequest(0).then((res) => {
+      dispatch(changePullUpLoading(false))
       const data = res.artists;
       dispatch(changeSingerList(data));
     });
@@ -45,6 +64,7 @@ export const refreshMoreHotSingerList = () => {
     const pageCount = getState().getIn(["singers", "pageCount"]);
     const singerList = getState().getIn(["singers", "singerList"]).toJS();
     getHotSingerListRequest(pageCount).then((res) => {
+      dispatch(changePullUpLoading(false))
       const data = [...singerList, ...res.artists];
       dispatch(changeSingerList(data));
     });
